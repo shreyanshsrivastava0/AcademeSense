@@ -1,0 +1,210 @@
+/* Reset and base styles */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+html, body{
+    width: 100%;
+    min-height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Landing page animation styles - Original Dark Theme */
+#main{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+    overflow: hidden;
+}
+
+#top{
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    height: 50vh;
+    background-color: rgb(255, 255, 255);
+    z-index: 9;
+    overflow: hidden;
+}
+
+#center{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    transform-origin: center;
+    background-color: rgb(0, 0, 0);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#bottom{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50vh;
+    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+}
+
+#main h1{
+    font-size: 12vw;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 800;
+    color: rgb(0, 0, 0);
+}
+
+#top-h1 {
+    color: black;
+    top: 100%;
+    
+}
+
+#bottom-h1 {
+    color: black;
+    top:0.2%;
+}
+
+#btn{
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+}
+
+#btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,255,255,0.4);
+    background-color: #f0f0f0;
+}
+
+/* Additional natural styling */
+.container {
+    max-width: 1200px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #main h1 {
+        font-size: 18vw;
+    }
+    
+    .feature-card {
+        margin: 15px 0;
+        padding: 30px 20px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #main h1 {
+        font-size: 22vw;
+    }
+    
+    .feature-card {
+        padding: 25px 15px;
+    }
+}
+
+
+
+
+
+
+#scroll-down {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20vh;
+    height: 20vh;
+    transform: translate(-50%, -50%);
+    perspective: 35vh;
+}
+
+#scroll-down svg {
+    position: absolute;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    fill: currentColor;
+    color: #fff;
+    filter: blur(1vh) drop-shadow(0 0 10vh #0fb);
+    animation: scroll-down 2s infinite cubic-bezier(.8,0,.2,1);
+    opacity: 0;
+}
+
+#scroll-down svg:nth-child(0) {animation-delay: 0s}
+#scroll-down svg:nth-child(1) {animation-delay: .5s}
+#scroll-down svg:nth-child(2) {animation-delay: 1s}
+#scroll-down svg:nth-child(3) {animation-delay: 1.5s}
+
+@keyframes scroll-down {
+    0% {
+        filter: blur(1vh) drop-shadow(0 0 6vh #00f);
+        opacity: 0;
+        top: 0;
+        transform: translate(-50%, -50%) scale(.5) rotateX(45deg);
+        color: #b9f;
+    }
+    50% {
+        filter: blur(0) drop-shadow(0 0 10vh #0fb);
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotateX(0);
+        color: #fff;
+    }
+    100% {
+        filter: blur(2vh) drop-shadow(0 0 6vh #f00);
+        opacity: 0;
+        top: 100%;
+        transform: translate(-50%, -50%) scale(.5) rotateX(0);
+        color: #b9f;
+    }
+}
+
+
+#text {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 5vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1vh;
+  text-shadow: 0 0 2vh #b9f;
+}
+
+#text::after {
+  content: 'SCROLL DOWN';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(3vh);
+  transform: scaleX(1.4) skew(45deg);
+}

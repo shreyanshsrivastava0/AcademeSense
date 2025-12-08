@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AcademeSense</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <div class="back-home">
+        <a href="/" class="back-btn">← Back to Home</a>
+    </div>
+    
+    <!-- Academic decoration -->
+    <div class="academic-decoration">📚🎓✏️</div>
+    
+    <div id="loginbox">
+        <div id="inloginbox">
+            <h2 style="font-family: 'Plus Jakarta Sans, sans-serif' "><b> Login </b> </h2>
+            <form action="/welcome" method="POST" novalidate class="needs-validation">
+                <div class="input-box">
+                    <input type="text" placeholder="Username or Email" name="username" required>
+                    <div class="invalid-feedback">Please enter</div>
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Password" name="password" required>
+                    <div class="invalid-feedback">Please enter</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary"><b> Login </b></button>
+            </form>
+            <div id="buttons">
+                    <form action="/createaccount" method="GET" style="margin: 0;">
+                        <button type="submit" class="btn btn-dark"> <b>Create New Account </b></button>
+                    </form>
+                </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>

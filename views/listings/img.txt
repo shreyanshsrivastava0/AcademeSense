@@ -1,0 +1,10 @@
+Mini3/img/1.png
+Mini3/img/2.png 
+Mini3/img/3.png 
+Mini3/img/4.png 
+Mini3/img/5.png 
+Mini3/img/6.png 
+Mini3/img/7.png 
+Mini3/img/8.png 
+Mini3/img/9.png 
+Mini3/img/10.png

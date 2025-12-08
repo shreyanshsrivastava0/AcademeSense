@@ -1,0 +1,283 @@
+<% layout("layouts/dashboard.ejs") %>
+
+<style>
+.student-profile {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+.profile-header {
+    background: linear-gradient(135deg, #617bf0ff 0%, #080808ff 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+.info-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+.risk-high { border-left: 5px solid #e74c3c; }
+.risk-medium { border-left: 5px solid #f39c12; }
+.risk-low { border-left: 5px solid #27ae60; }
+.grade-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.strength-item {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.weakness-item {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.recommendation-item {
+    background: #d1ecf1;
+    border: 1px solid #bee5eb;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.back-btn {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+.back-btn:hover {
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+}
+.performance-chart {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+</style>
+
+<div class="student-profile">
+    <div class="profile-header text-center">
+        <h1>📊 Student Profile</h1>
+        <h2><b><%= student.name %></b></h2>
+        <p class="mb-0">ID: <%= student.student_id %></p>
+        <% if (student.email) { %>
+            <p class="mb-0">📧 <b><%= student.email %></b></p>
+        <% } %>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <a href = "javascript:history.back()" class="back-btn">← Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Risk Assessment -->
+    <div class="info-card risk-<%= student.risk_level %>">
+        <h3>🚨 Risk Assessment</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Risk Level</h4>
+                <span class="badge bg-<%= student.risk_level === 'high' ? 'danger' : student.risk_level === 'medium' ? 'warning' : 'success' %> fs-6">
+                    <%= student.risk_level.toUpperCase() %>
+                </span>
+            </div>
+            <div class="col-md-4">
+                <h4>Overall Performance</h4>
+                <h2 class="text-<%= student.overall_performance >= 85 ? 'success' : student.overall_performance >= 75 ? 'warning' : 'danger' %>">
+                    <%= student.overall_performance ? student.overall_performance.toFixed(1) + '%' : 'N/A' %>
+                </h2>
+            </div>
+            <div class="col-md-4">
+                <h4>At Risk</h4>
+                <span class="badge bg-<%= student.at_risk ? 'danger' : 'success' %> fs-6">
+                    <%= student.at_risk ? 'YES' : 'NO' %>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="info-card">
+        <h3>📈 Performance Metrics</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="grade-item">
+                    <strong>Attendance</strong>
+                    <span class="badge bg-<%= student.attendance >= 95 ? 'success' : student.attendance >= 85 ? 'warning' : 'danger' %>">
+                        <%= student.attendance || 'N/A' %>%
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="grade-item">
+                    <strong>Study Hours/Week</strong>
+                    <span class="badge bg-<%= student.study_hours >= 7 ? 'success' : student.study_hours >= 5 ? 'warning' : 'danger' %>">
+                        <%= student.study_hours || 'N/A' %>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="grade-item">
+                    <strong>Final Grade</strong>
+                    <span class="badge bg-<%= student.final_grade >= 85 ? 'success' : student.final_grade >= 75 ? 'warning' : 'danger' %>">
+                        <%= student.final_grade || 'N/A' %>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subject Grades -->
+    <% if (student.grades && student.grades.size > 0) { %>
+    <div class="info-card">
+        <h3>📚 Subject Performance</h3>
+        <div class="row">
+            <% Array.from(student.grades.entries()).forEach(([subject, grade]) => { %>
+                <div class="col-md-6">
+                    <div class="grade-item">
+                        <strong><%= subject %></strong>
+                        <span class="badge bg-<%= grade >= 85 ? 'success' : grade >= 75 ? 'warning' : 'danger' %>">
+                            <%= grade %>
+                        </span>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- ML Prediction -->
+    <% if (student.ml_prediction) { %>
+    <div class="info-card">
+        <h3>🤖 AI Prediction</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Predicted Performance</h4>
+                <h2 class="text-info"><%= student.ml_prediction.toFixed(2) %></h2>
+            </div>
+            <div class="col-md-6">
+                <h4>Confidence Level</h4>
+                <div class="progress">
+                    <div class="progress-bar bg-info" style="width: 85%;">85%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- Performance Insights -->
+    <div class="row">
+        <!-- Strengths -->
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3>💪 Strengths</h3>
+                <% if (student.performance_insights && student.performance_insights.strengths.length > 0) { %>
+                    <% student.performance_insights.strengths.forEach(strength => { %>
+                        <div class="strength-item">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <%= strength %>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="text-muted">No specific strengths identified yet.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Areas for Improvement -->
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3>⚠️ Areas for Improvement</h3>
+                <% if (student.performance_insights && student.performance_insights.weaknesses.length > 0) { %>
+                    <% student.performance_insights.weaknesses.forEach(weakness => { %>
+                        <div class="weakness-item">
+                            <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                            <%= weakness %>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="text-muted">No areas for improvement identified.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3>💡 Recommendations</h3>
+                <% if (student.performance_insights && student.performance_insights.recommendations.length > 0) { %>
+                    <% student.performance_insights.recommendations.forEach(recommendation => { %>
+                        <div class="recommendation-item">
+                            <i class="fas fa-lightbulb text-info me-2"></i>
+                            <%= recommendation %>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="text-muted">No specific recommendations at this time.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert History -->
+    <% if (student.alerts_sent && student.alerts_sent.length > 0) { %>
+    <div class="info-card">
+        <h3>📧 Alert History</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Alert Type</th>
+                        <th>Sent Date</th>
+                        <th>Email Sent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% student.alerts_sent.forEach(alert => { %>
+                        <tr>
+                            <td><%= alert.type.replace('_', ' ').toUpperCase() %></td>
+                            <td><%= new Date(alert.sent_at).toLocaleDateString() %></td>
+                            <td>
+                                <span class="badge bg-<%= alert.email_sent ? 'success' : 'secondary' %>">
+                                    <%= alert.email_sent ? 'Yes' : 'No' %>
+                                </span>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- Last Updated -->
+    <div class="text-center text-muted">
+        <small>Last updated: <%= student.last_updated ? new Date(student.last_updated).toLocaleString() : 'N/A' %></small>
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>

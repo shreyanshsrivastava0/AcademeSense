@@ -1,0 +1,21 @@
+Student_Id,Name,Email,Maths,English,Science,Physics,Attendence,Study_Hours,Final_Grade
+1,Alice Johnson,alice.johnson@student.edu,85,88,82,89,95,6,85.5
+2,Bob Smith,bob.smith@student.edu,72,75,78,70,88,4,73.75
+3,Carol Williams,carol.williams@student.edu,91,89,94,87,97,8,90.25
+4,David Brown,anujverma1475@gmail.com,68,65,70,72,82,3,68.75
+5,Eve Davis,eve.davis@student.edu,79,82,85,80,90,5,81.5
+6,Frank Miller,millarmategaming@gmail.com,78,20,89,40,67,9,50
+7,Grace Wilson,bit23aiml66@bit.ac.in,77,80,75,78,85,4,77.5
+8,Henry Moore,henry.moore@student.edu,84,86,88,82,92,7,85
+9,Ivy Taylor,ivy.taylor@student.edu,66,70,68,65,79,2,67.25
+10,Jack Anderson,jack.anderson@student.edu,88,85,91,86,94,6,87.5
+11,Karen Thomas,karen.thomas@student.edu,73,78,76,74,86,4,75.25
+12,Liam Jackson,liam.jackson@student.edu,81,79,83,85,89,5,82
+13,Mia White,mia.white@student.edu,92,94,90,89,96,8,91.25
+14,Noah Harris,noah.harris@student.edu,75,72,77,76,83,4,75
+15,Olivia Martin,olivia.martin@student.edu,87,90,85,88,93,7,87.5
+16,Paul Thompson,paul.thompson@student.edu,69,67,71,70,80,3,69.25
+17,Quinn Garcia,quinn.garcia@student.edu,83,85,80,82,91,6,82.5
+18,Rachel Martinez,rachel.martinez@student.edu,78,81,79,77,87,5,78.75
+19,Sam Rodriguez,sam.rodriguez@student.edu,90,88,92,89,95,8,89.75
+20,Tina Lewis,tina.lewis@student.edu,74,76,72,75,84,4,74.25

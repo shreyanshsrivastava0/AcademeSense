@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - AcademeSense</title>
+    <!-- Bootstrap CSS (optional, for navbar) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #1a1a17;
+            --bg-secondary: #212118;
+            --bg-card: #2a2a24;
+            --text-primary: #f5f5dc;
+            --text-secondary: #d4d4aa;
+            --text-muted: #a8a882;
+            --accent-yellow: #f4d03f;
+            --accent-gold: #f7c14d;
+            --accent-amber: #ffa726;
+            --border-light: #3d3d32;
+            --border-focus: #f4d03f;
+            --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            --shadow-strong: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        /* Navbar */
+        .navbar { 
+            background: linear-gradient(135deg, #667eea 0%, #000000 100%); 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            z-index: 1000; 
+        }
+        .navbar .nav-link:hover { background-color: rgba(255,255,255,0.2); border-radius: 20px; }
+
+        /* Glassmorphism container */
+        .container {
+            max-width: 640px;
+            margin: 4rem auto 2rem auto;
+            position: relative;
+        }
+
+        .header { text-align: center; margin-bottom: 3rem; animation: slideDown 0.6s ease-out; }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-yellow) 0%, var(--accent-gold) 100%);
+            -webkit-text-fill-color: transparent;
+        }
+        .header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 480px; margin: 0 auto; }
+
+        .form-container {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-strong);
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-yellow) 0%, var(--accent-amber) 100%);
+        }
+
+        .form-grid { display: grid; gap: 1.5rem; }
+        .form-row { display: grid; gap: 1rem; }
+        @media (min-width: 640px) { .form-row.two-cols { grid-template-columns: 1fr 1fr; } }
+
+        .form-group { position: relative; }
+        .form-label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-size: 0.9rem; }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: var(--bg-card);
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(244, 208, 63, 0.2);
+        }
+
+        .form-select { cursor: pointer; padding-right: 3rem; appearance: none; }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-yellow) 0%, var(--accent-gold) 100%);
+            color: #1a1a17;
+            padding: 1.25rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-strong); }
+
+        .success-message { 
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-gold));
+            color: #1a1a17;
+            padding: 1rem; border-radius: 12px;
+            margin-bottom: 1.5rem; display: none; font-weight: 500;
+        }
+
+        .privacy-notice {
+            margin-top: 1.5rem; padding: 1rem; background: var(--bg-secondary);
+            border-radius: 12px; font-size: 0.85rem; color: var(--text-secondary);
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        .required { color: var(--accent-amber); }
+
+        /* Floating circles */
+        .floating-elements { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+        .floating-circle { position: absolute; border-radius: 50%; opacity: 0.1; animation: float 6s ease-in-out infinite; }
+        .circle-1 { width: 60px; height: 60px; background: var(--accent-yellow); top: 10%; left: 10%; animation-delay: 0s; }
+        .circle-2 { width: 40px; height: 40px; background: var(--accent-gold); top: 20%; right: 15%; animation-delay: 2s; }
+        .circle-3 { width: 80px; height: 80px; background: var(--accent-amber); bottom: 15%; left: 20%; animation-delay: 4s; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 33% { transform: translateY(-20px) rotate(120deg); } 66% { transform: translateY(10px) rotate(240deg); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+    </style>
+</head>
+<body>
+
+    <!-- Floating background circles -->
+    <div class="floating-elements">
+        <div class="floating-circle circle-1"></div>
+        <div class="floating-circle circle-2"></div>
+        <div class="floating-circle circle-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Let's Connect</h1>
+            <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                <strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you soon.
+            </div>
+
+            <form class="form-grid" id="contactForm" novalidate>
+                <!-- Name & Email -->
+                <div class="form-row two-cols">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="Name" required>
+                        <div class="error-message">Please enter your full name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="name@gmail.com" required>
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+                </div>
+
+                <!-- Phone & Subject -->
+                <div class="form-row two-cols">
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 932024XXXX">
+                        <div class="error-message">Please enter a valid phone number</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject <span class="required">*</span></label>
+                        <select id="subject" name="subject" class="form-select" required>
+                            <option value="">Select a topic</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="sales">Sales & Pricing</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="careers">Careers</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="error-message">Please select a subject</div>
+                    </div>
+                </div>
+
+                <!-- Message -->
+                <div class="form-group">
+                    <label for="message" class="form-label">Message <span class="required">*</span></label>
+                    <textarea id="message" name="message" class="form-textarea" placeholder="Tell us more about your inquiry..." required minlength="10"></textarea>
+                    <div class="error-message">Please enter a message (at least 10 characters)</div>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+
+                <div class="privacy-notice">
+                    <strong>Privacy Notice:</strong> We respect your privacy and will never share your personal information. 
+                    Your data is used solely to respond to your inquiry and improve our services.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Optional Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+   <script>
+const contactForm = document.getElementById('contactForm');
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
+    let isValid = true;
+
+    const requiredFields = ['name','email','subject','message'];
+    requiredFields.forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        if (!field.value.trim()) { 
+            field.closest('.form-group').classList.add('error'); 
+            isValid = false; 
+        }
+    });
+
+    // Email validation
+    const email = document.getElementById('email');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(email.value && !emailRegex.test(email.value)){
+        email.closest('.form-group').classList.add('error'); 
+        isValid = false;
+    }
+
+    // Message length
+    const message = document.getElementById('message');
+    if(message.value.trim().length < 10){
+        message.closest('.form-group').classList.add('error'); 
+        isValid = false;
+    }
+
+    // Phone validation
+    const phone = document.getElementById('phone');
+    if(phone.value.trim()){
+        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+        if(!phoneRegex.test(phone.value.replace(/[\s\-\(\)]/g,''))){
+            phone.closest('.form-group').classList.add('error'); 
+            isValid = false;
+        }
+    }
+
+    // ✅ If everything is valid → Open WhatsApp
+    if(isValid){
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value.trim();
+
+        const formattedMessage = ` Hello AcademeSense Team, I'd like to get in touch regarding the following: \n\n` +
+            ` Name : ${name}\n` +
+            ` Email : ${email}\n` +
+            ` Phone : ${phone}\n` +
+            ` Subject : ${subject}\n` +
+            ` Message : ${message}`;
+
+        // Replace with your own WhatsApp number (no + or spaces)
+        const phoneNumber = "918299491523";
+
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
+
+        // Open WhatsApp (popup may need to be allowed)
+        window.open(whatsappURL, "_blank");
+
+        // Optional success feedback
+        const successMessage = document.getElementById('successMessage');
+        successMessage.style.display='block';
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.style.background='linear-gradient(135deg, #ffa726 0%, #ffb74d 100%)';
+        submitBtn.textContent='Opening WhatsApp...';
+
+        setTimeout(()=>{
+            contactForm.reset();
+            successMessage.style.display='none';
+            submitBtn.style.background='linear-gradient(135deg, var(--accent-yellow) 0%, var(--accent-gold) 100%)';
+            submitBtn.textContent='Send Message';
+        },4000);
+    } else {
+        document.querySelectorAll('.form-group.error').forEach(group=>{
+            group.style.animation='pulse 0.5s ease-in-out';
+            setTimeout(()=>{group.style.animation='';},500);
+        });
+    }
+});
+
+// Real-time validation
+document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input=>{
+    input.addEventListener('blur', function(){
+        const group = this.closest('.form-group');
+        if(this.hasAttribute('required') && !this.value.trim()){ 
+            group.classList.add('error'); 
+        } else { 
+            group.classList.remove('error'); 
+        }
+    });
+    input.addEventListener('input', function(){
+        const group = this.closest('.form-group');
+        if(group.classList.contains('error') && this.value.trim()){ 
+            group.classList.remove('error'); 
+        }
+    });
+});
+
+// Floating animation on scroll
+window.addEventListener('scroll', ()=>{
+    const scrolled = window.pageYOffset;
+    document.querySelectorAll('.floating-circle').forEach((circle,index)=>{
+        const speed = 0.5+(index*0.1);
+        circle.style.transform=`translateY(${scrolled*speed}px) rotate(${scrolled*0.1}deg)`;
+    });
+});
+</script>
+
+   
+</body>
+</html>

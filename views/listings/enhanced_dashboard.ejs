@@ -1,0 +1,511 @@
+<% layout("layouts/dashboard.ejs" )%>
+
+<style>
+.dashboard {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+.student-header {
+    background: linear-gradient(135deg, #667eea 0%, #000000 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+.upload-section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-left: 4px solid #667eea;
+    transition: transform 0.3s ease;
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+.chart-container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+.risk-alert {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+.data-table {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+.btn-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #3f2956 100%);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+.btn-danger-gradient {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+}
+.btn-success-gradient {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+}
+.student-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.student-row:hover {
+    background-color: #f8f9fa;
+}
+.risk-high { border-left-color: #e74c3c; }
+.risk-medium { border-left-color: #f39c12; }
+.risk-low { border-left-color: #27ae60; }
+.email-controls {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+.loading {
+    display: none;
+}
+.individual-analysis {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+</style>
+
+<div class="dashboard">
+    <div class="student-header text-center">
+        <h1>Welcome, <%= username %>!</h1>
+        <p class="mb-0">Enhanced Student Performance Analytics Dashboard</p>
+    </div>
+
+    <div class="upload-section">
+        <h3 class="mb-3">📄 Upload Student CSV Data</h3>
+        <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <input type="file" id="csvFile" name="csvFile" accept=".csv" required 
+                           class="form-control" style="border-radius: 10px;" />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-gradient w-100">
+                        Analyze Data
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <% if (csvData) { %>
+        <% if (csvData.analysis) { %>
+            <!-- Enhanced Statistics Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Total Students</h4>
+                    <h2 class="text-primary"><%= csvData.analysis.total_students %></h2>
+                </div>
+                
+                <% if (csvData.dashboardStats) { %>
+                <div class="stat-card risk-high">
+                    <h4>High Risk Students</h4>
+                    <h2 class="text-danger"><%= csvData.dashboardStats.highRiskStudents %></h2>
+                    <small>Immediate attention needed</small>
+                </div>
+                <div class="stat-card risk-medium">
+                    <h4>Medium Risk Students</h4>
+                    <h2 class="text-warning"><%= csvData.dashboardStats.mediumRiskStudents %></h2>
+                    <small>Monitor closely</small>
+                </div>
+                <% } %>
+                
+                <% if (csvData.analysis.performance_insights.class_average) { %>
+                <div class="stat-card">
+                    <h4>Class Average</h4>
+                    <h2 class="text-success"><%= csvData.analysis.performance_insights.class_average.toFixed(2) %>%</h2>
+                </div>
+                <% } %>
+                
+                <% if (csvData.analysis.ml_predictions.model_performance) { %>
+                <div class="stat-card">
+                    <h4>ML Accuracy</h4>
+                    <h2 class="text-info"><%= (csvData.analysis.ml_predictions.model_performance.r2_score * 100).toFixed(1) %>%</h2>
+                    <small>Model Performance</small>
+                </div>
+                <% } %>
+            </div>
+
+            <!-- Email Controls -->
+            <div class="email-controls">
+                <h4>📧 Email Notifications</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button id="sendRiskAlerts" class="btn btn-danger-gradient w-100 mb-2">
+                            Send Risk Alerts to At-Risk Students
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button id="sendProgressReports" class="btn btn-success-gradient w-100 mb-2">
+                            Send Progress Reports to All
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <input type="email" id="teacherEmail" class="form-control" placeholder="Teacher Email (optional)">
+                    </div>
+                    <div class="col-md-6">
+                        <button id="testEmail" class="btn btn-outline-primary w-100">
+                            Test Email Configuration
+                        </button>
+                    </div>
+                </div>
+                <div id="emailStatus" class="mt-3"></div>
+            </div>
+
+            <!-- Enhanced Risk Alert -->
+            <% if (csvData.analysis.performance_insights.students_needing_attention > 0) { %>
+            <div class="risk-alert">
+                <h4>🚨 Attention Required!</h4>
+                <p>We have identified <strong><%= csvData.analysis.performance_insights.students_needing_attention %> students</strong> who need additional support. 
+                Individual analysis shows specific areas where each student requires help.</p>
+                <a href="/upload/at-risk-students" class="btn btn-light">View At-Risk Students</a>
+            </div>
+            <% } %>
+
+            <!-- Individual Student Analysis Section -->
+            <div class="individual-analysis">
+                <h4>👥 Individual Student Analysis</h4>
+                <p class="text-muted">Each student now has personalized insights and recommendations.</p>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stat-card risk-high">
+                            <h5>Students Needing Help</h5>
+                            <h3><%= (csvData.analysis.individual_student_analysis || []).filter(s => s && s.at_risk).length %></h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card risk-low">
+                            <h5>High Performers</h5>
+                            <h3><%= (csvData.analysis.individual_student_analysis || []).filter(s => s && s.overall_performance >= 85).length %></h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h5>With Email Addresses</h5>
+                            <h3><%= csvData.data.filter(s => s.Email || s.email).length %></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Charts -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h4>Risk Level Distribution</h4>
+                        <canvas id="riskChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h4>Subject Performance</h4>
+                        <canvas id="subjectChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <% if (csvData.analysis.ml_predictions.feature_importance) { %>
+            <div class="chart-container">
+                <h4>ML Feature Importance</h4>
+                <p class="text-muted">Which factors most influence student performance?</p>
+                <canvas id="featureChart" width="800" height="400"></canvas>
+            </div>
+            <% } %>
+
+            <!-- Enhanced Data Table -->
+            <div class="data-table">
+                <div class="p-3 bg-light d-flex justify-content-between align-items-center">
+                    <h4>📋 Student Data & Individual Analysis</h4>
+                    <small class="text-muted">Click on a student row to view detailed analysis</small>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <% Object.keys(csvData.data[0]).forEach(function(key) { %>
+                                    <th><%= key %></th>
+                                <% }) %>
+                                <th>Risk Level</th>
+                                <th>Strengths</th>
+                                <th>Needs Work</th>
+                                <% if (csvData.analysis && csvData.analysis.ml_predictions.predictions) { %>
+                                    <th>ML Prediction</th>
+                                <% } %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% csvData.data.forEach(function(row, index) { %>
+                                <% const studentAnalysis = csvData.analysis.individual_student_analysis[index]; %>
+                                <tr class="student-row" 
+                                    data-student-id="<%= row.Student_Id || row.student_id || index + 1 %>"
+                                    <% if (studentAnalysis && studentAnalysis.at_risk) { %>
+                                        style="background-color: <%= studentAnalysis.risk_level === 'high' ? '#ffebee' : '#fff3e0' %>;"
+                                    <% } %>>
+                                    <% Object.values(row).forEach(function(val) { %>
+                                        <td><%= val %></td>
+                                    <% }) %>
+                                    <td>
+                                        <% if (studentAnalysis) { %>
+                                            <span class="badge bg-<%= studentAnalysis.risk_level === 'high' ? 'danger' : studentAnalysis.risk_level === 'medium' ? 'warning' : 'success' %>">
+                                                <%= studentAnalysis.risk_level.toUpperCase() %>
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (studentAnalysis && studentAnalysis.strengths.length > 0) { %>
+                                            <small><%= studentAnalysis.strengths.slice(0, 2).join(', ') %><%= studentAnalysis.strengths.length > 2 ? '...' : '' %></small>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (studentAnalysis && studentAnalysis.weaknesses.length > 0) { %>
+                                            <small class="text-danger"><%= studentAnalysis.weaknesses.slice(0, 2).join(', ') %><%= studentAnalysis.weaknesses.length > 2 ? '...' : '' %></small>
+                                        <% } %>
+                                    </td>
+                                    <% if (csvData.analysis && csvData.analysis.ml_predictions.predictions) { %>
+                                        <td><%= csvData.analysis.ml_predictions.predictions[index].toFixed(2) %></td>
+                                    <% } %>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Save Status -->
+            <% if (csvData.saveErrors && csvData.saveErrors.length > 0) { %>
+            <div class="alert alert-warning">
+                <h5>⚠️ Save Warnings</h5>
+                <p>Some students couldn't be saved to the database:</p>
+                <ul>
+                    <% csvData.saveErrors.forEach(function(error) { %>
+                        <li>Student <%= error.index %>: <%= error.error %></li>
+                    <% }) %>
+                </ul>
+            </div>
+            <% } %>
+
+        <% } %>
+    <% } %>
+</div>
+
+<!-- Chart.js Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Email functionality
+document.getElementById('sendRiskAlerts').addEventListener('click', async function() {
+    const button = this;
+    const originalText = button.textContent;
+    button.textContent = 'Sending...';
+    button.disabled = true;
+    
+    try {
+        const teacherEmail = document.getElementById('teacherEmail').value;
+        const response = await fetch('/api/send-risk-alerts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ teacherEmail })
+        });
+        
+        const result = await response.json();
+        const statusDiv = document.getElementById('emailStatus');
+        
+        if (result.success) {
+            statusDiv.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+        } else {
+            statusDiv.innerHTML = `<div class="alert alert-danger">Error: ${result.error}</div>`;
+        }
+    } catch (error) {
+        document.getElementById('emailStatus').innerHTML = `<div class="alert alert-danger">Error sending alerts: ${error.message}</div>`;
+    } finally {
+        button.textContent = originalText;
+        button.disabled = false;
+    }
+});
+
+document.getElementById('sendProgressReports').addEventListener('click', async function() {
+    const button = this;
+    const originalText = button.textContent;
+    button.textContent = 'Sending...';
+    button.disabled = true;
+    
+    try {
+        const teacherEmail = document.getElementById('teacherEmail').value;
+        const response = await fetch('/api/send-progress-reports', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ teacherEmail })
+        });
+        
+        const result = await response.json();
+        const statusDiv = document.getElementById('emailStatus');
+        
+        if (result.success) {
+            statusDiv.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+        } else {
+            statusDiv.innerHTML = `<div class="alert alert-danger">Error: ${result.error}</div>`;
+        }
+    } catch (error) {
+        document.getElementById('emailStatus').innerHTML = `<div class="alert alert-danger">Error sending reports: ${error.message}</div>`;
+    } finally {
+        button.textContent = originalText;
+        button.disabled = false;
+    }
+});
+
+document.getElementById('testEmail').addEventListener('click', async function() {
+    try {
+        const response = await fetch('/api/test-email');
+        const result = await response.json();
+        const statusDiv = document.getElementById('emailStatus');
+        
+        if (result.success) {
+            statusDiv.innerHTML = `<div class="alert alert-success">✅ Email configuration is working!</div>`;
+        } else {
+            statusDiv.innerHTML = `<div class="alert alert-warning">⚠️ Email setup needed: ${result.error}</div>`;
+        }
+    } catch (error) {
+        document.getElementById('emailStatus').innerHTML = `<div class="alert alert-danger">Error testing email: ${error.message}</div>`;
+    }
+});
+
+// Student row click handler
+document.querySelectorAll('.student-row').forEach(row => {
+    row.addEventListener('click', function() {
+        const studentId = this.dataset.studentId;
+        window.location.href = `/student/${studentId}`;
+    });
+});
+
+function generateColors(count) {
+    const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+    const result = [];
+    for (let i = 0; i < count; i++) {
+        result.push(colors[i % colors.length]);
+    }
+    return result;
+}
+
+<% if (csvData && csvData.analysis) { %>
+// Risk Level Chart
+const riskData = {
+    high: <%= (csvData.analysis.individual_student_analysis || []).filter(s => s && s.risk_level === 'high').length %>,
+    medium: <%= (csvData.analysis.individual_student_analysis || []).filter(s => s && s.risk_level === 'medium').length %>,
+    low: <%= (csvData.analysis.individual_student_analysis || []).filter(s => s && s.risk_level === 'low').length %>
+};
+
+const riskCtx = document.getElementById('riskChart').getContext('2d');
+new Chart(riskCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['High Risk', 'Medium Risk', 'Low Risk'],
+        datasets: [{
+            data: [riskData.high, riskData.medium, riskData.low],
+            backgroundColor: ['#e74c3c', '#f39c12', '#27ae60']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' }
+        }
+    }
+});
+
+<% if (csvData.analysis.performance_insights.average_scores) { %>
+// Subject Performance Chart
+const subjectData = <%- JSON.stringify(csvData.analysis.performance_insights.average_scores) %>;
+const subjectLabels = Object.keys(subjectData);
+const subjectValues = Object.values(subjectData);
+const subjectCtx = document.getElementById('subjectChart').getContext('2d');
+new Chart(subjectCtx, {
+    type: 'bar',
+    data: {
+        labels: subjectLabels,
+        datasets: [{
+            label: 'Average Score',
+            data: subjectValues,
+            backgroundColor: generateColors(subjectLabels.length)
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+<% } %>
+
+<% if (csvData.analysis.ml_predictions.feature_importance) { %>
+// Feature Importance Chart
+const featureData = <%- JSON.stringify(csvData.analysis.ml_predictions.feature_importance) %>;
+const featureLabels = Object.keys(featureData);
+const featureValues = Object.values(featureData);
+const featureCtx = document.getElementById('featureChart').getContext('2d');
+new Chart(featureCtx, {
+    type: 'bar',
+    data: {
+        labels: featureLabels,
+        datasets: [{
+            label: 'Importance',
+            data: featureValues,
+            backgroundColor: generateColors(featureLabels.length)
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        scales: {
+            x: { beginAtZero: true }
+        }
+    }
+});
+<% } %>
+<% } %>
+
+</script>
