@@ -1,7 +1,7 @@
 # 🎓 Academesence – ML-Powered Student Performance Prediction System
 
-**Project Guide :** Shravan Kumar Pandey, 
- **Project Coordinator:** Pankaj Kumar
+**Project Guide :** Mr. Shravan Kumar Pandey, 
+ **Project Coordinator:** Mr. Pankaj Kumar
 
 ---
 
@@ -251,11 +251,13 @@ System automatically sends alerts for high-risk students.
 
 Add your screenshots like:
 
-```
-![Dashboard](1.png)
-![Risk Analysis](2.png)
-![Insights](3.png)
-```
+
+![Landing Page](2.png)
+![Login Page](3.png)
+![Dashboard](4.png)
+![Data Analysis](7.png)
+![Notifications](9.png)
+
 
 ---
 
@@ -308,4 +310,10 @@ This project is licensed under the MIT License.
 ## ⭐ Support
 
 If you like this project, please star the repository.
+
+## Contributors
+
+<a href="https://github.com/yashnishad-0923">
+  <img src="https://github.com/yashnishad-0923.png" width="50px">
+</a>
 
