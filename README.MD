@@ -1,130 +1,311 @@
-**Academesence – ML-Powered Student Performance Prediction System**
+# 🎓 Academesence – ML-Powered Student Performance Prediction System
 
-📘 Overview :
+**Project Guide :** Shravan Kumar Pandey
+**Project Coordinator:** Pankaj Kumar
 
-    Academesence is an AI-driven academic performance monitoring and early-warning platform designed for educational institutions.
-    It predicts students’ academic outcomes using Machine Learning, evaluates risk levels, and automatically generates personalized insights and email alerts for mentors or HODs.
+---
 
-    This platform helps identify students who may be at risk of academic failure well before final exams, enabling timely interventions and academic support.
+## 📘 Overview
 
+**Academesence** is a Machine Learning–powered academic performance monitoring and early-warning platform designed for educational institutions.
 
+It predicts students’ academic outcomes using data-driven ML models, evaluates risk levels, and automatically generates personalized insights and email alerts for mentors or Heads of Department (HODs).
 
-🚀 Key Features :
+This enables institutions to identify at-risk students early and take proactive corrective actions to improve academic performance.
 
-* 📊 Data-Driven Insights: Upload student CSV data including grades, attendance, and study hours.
+---
 
-* 🤖 Machine Learning Prediction: Automatically predicts student performance trends and risk levels.
+## 🎯 Objectives
 
-* 📧 Automated Email Alerts: Sends email notifications to mentors or HODs for at-risk students.
+- Predict student academic performance using Machine Learning
+- Identify at-risk students early
+- Provide actionable recommendations
+- Enable mentors and HODs to intervene proactively
+- Automate academic monitoring and reporting
 
-* 📈 Dynamic Dashboard: Real-time analytics of student performance and risk distribution.
+---
 
-* 🧩 Individual Analysis: Personalized strengths, weaknesses, and actionable recommendations.
+## 🚀 Key Features
 
-* 💾 MongoDB Database: All student records and insights are securely stored and updated dynamically.
+### 📊 Data-Driven Analysis
+- Upload student datasets via CSV
+- Analyze grades, attendance, and study behavior
+- Generate performance insights automatically
 
-🧩 Tech Stack :
+### 🤖 Machine Learning Predictions
+- ML model predicts academic outcomes
+- Assigns risk levels based on learning patterns
 
-| Layer              | Technology                    |
-| ------------------ | ----------------------------- |
+### 📧 Automated Email Alerts
+- Sends alerts to mentors/HODs
+- Highlights students needing attention
+- Enables early intervention
 
-| **Frontend**       | HTML, CSS, JavaScript, EJS    |
+### 📈 Interactive Dashboard
+- Real-time analytics visualization
+- Risk distribution overview
+- Student performance tracking
 
-| **Backend**        | Node.js, Express.js           |
+### 🧩 Individual Student Analysis
+- Personalized strengths and weaknesses
+- AI-generated improvement suggestions
 
-| **Database**       | MongoDB                       |
+### 💾 Secure Database Storage
+- MongoDB integration
+- Persistent student records
+- Dynamic updates and retrieval
 
-| **ML Integration** | Python (pandas, scikit-learn) |
+---
 
-| **Communication**  | Nodemailer for email alerts   |
+## 🧠 Machine Learning Model
 
+The ML model analyzes the following features:
 
-🧠 Machine Learning Model :
+- Academic grades across subjects
+- Attendance percentage
+- Daily study hours
 
-The ML model is trained to analyze:
+### Risk Classification Levels
 
-    * Grades: Academic marks across multiple subjects.
+- 🟢 Low Risk  
+- 🟡 Medium Risk  
+- 🟠 High Risk  
+- 🔴 Very High Risk  
 
-    * Attendance: Percentage of classes attended.
+This enables proactive academic support based on behavior patterns rather than waiting for final exam results.
 
-    * Study Hours: Average daily self-study time.
+---
 
-Using these factors, it computes a risk score and classifies students into:
+## 🧩 Tech Stack
 
- Low Risk | Medium Risk | High Risk | Very High Risk
+| Layer | Technology |
+|------|------------|
+| Frontend | HTML, CSS, JavaScript, EJS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB |
+| Machine Learning | Python, pandas, scikit-learn |
+| Email Service | Nodemailer |
+| Visualization | Chart.js |
 
-This prediction helps mentors proactively guide students based on learning behavior rather than just final scores.
+---
 
+## ⚙️ System Architecture
 
-⚙️ System Architecture
+```
+CSV Upload
+   ↓
+Python ML Processing
+   ↓
+Node.js Backend
+   ↓
+MongoDB Storage
+   ↓
+Risk Analysis & Insight Generation
+   ↓
+Email Alerts
+   ↓
+Dashboard Visualization
+```
 
-1. CSV Upload: Mentor uploads a CSV containing student data.
+---
 
-2. Python Processing: A Python script reads and analyzes the data, applying the ML model.
+## 📂 Project Structure
 
-3. Node.js Integration: The processed data is sent to the backend and stored in MongoDB.
-
-4. Risk & Insight Generation:
-
-    * Calculates individual performance insights.
-
-    * Assigns risk level and generates improvement suggestions.
-
-5. Email Automation: Alerts mentors or HODs about students needing attention.
-
-6. Dashboard Visualization: Displays real-time statistics and performance charts.
-
-📂 Project Structure :
-
+```
 Mini3/
 │
 ├── config/              # Database & environment configuration
-├── controllers/         # Core logic for routing & data processing
+├── controllers/         # Application logic & routing handlers
 ├── init/                # Initialization scripts
-├── models/              # Mongoose schemas
+├── models/              # MongoDB Mongoose schemas
 ├── public/              # Static assets (CSS, JS, Images)
-├── services/            # Helper and business logic services
-├── uploads/             # Uploaded CSVs or student files
-├── utils/               # Utility functions (e.g., csv_reader.py)
+├── services/            # Business logic & service layer
+├── uploads/             # Uploaded CSV files
+├── utils/               # Utility scripts (csv_reader.py)
 │
 ├── views/
-│   ├── includes/        # Reusable components (navbar, footer)
-│   ├── layouts/         # Layout templates (boilerplate, dashboard)
-│   ├── listings/        # All EJS pages (home, login, dashboard, etc.)
+│   ├── includes/        # Reusable UI components
+│   ├── layouts/         # Layout templates
+│   ├── listings/        # Application pages
 │
-├── .env                 # Environment configuration
-├── .env.example         # Sample env file for setup
-├── csv_reader.py        # Python script for CSV data processing
-│
-└── package.json
-|
-└── server.js
+├── csv_reader.py        # Python ML processing script
+├── server.js            # Main server entry point
+├── package.json         # Node dependencies
+├── .env                 # Environment variables
+├── .env.example         # Sample environment file
+└── README.md
+```
 
-📸 Screenshots :
+---
 
-![alt text](<1.png>)
+## 🛠️ Installation & Setup Guide
 
-![alt text](<2.png>)
+### Prerequisites
 
-![alt text](<3.png>)
+Make sure you have installed:
 
-![alt text](<4.png>)
+- Node.js (v16 or higher)
+- Python (v3.8 or higher)
+- MongoDB
+- npm
 
-![alt text](<5.png>)
+---
 
-![alt text](<6.png>)
+### Step 1: Clone Repository
 
-![alt text](<7.png>)
+```bash
+git clone https://github.com/yourusername/academesence.git
+cd academesence
+```
 
-![alt text](<8.png>)
+---
 
-![alt text](<9.png>)
+### Step 2: Install Node Dependencies
 
-![alt text](<10.png>)
+```bash
+npm install
+```
 
+---
 
+### Step 3: Install Python Dependencies
 
+```bash
+pip install pandas scikit-learn numpy
+```
 
+---
 
+### Step 4: Configure Environment Variables
 
+Create `.env` file:
+
+```
+PORT=3000
+
+MONGO_URI=your_mongodb_connection_string
+
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_email_password
+```
+
+---
+
+### Step 5: Start MongoDB
+
+```bash
+mongod
+```
+
+---
+
+### Step 6: Run the Server
+
+```bash
+node server.js
+```
+
+Server will run at:
+
+```
+http://localhost:3000
+```
+
+---
+
+## 📊 Usage Guide
+
+### Step 1: Login as Mentor/HOD
+
+Access dashboard via browser.
+
+### Step 2: Upload CSV File
+
+Example CSV format:
+
+```
+Student Name,Grades,Attendance,Study Hours
+John Doe,78,85,3
+Jane Smith,45,60,1
+```
+
+---
+
+### Step 3: View Dashboard
+
+Dashboard displays:
+
+- Risk levels
+- Student performance analytics
+- Individual insights
+
+---
+
+### Step 4: Email Alerts
+
+System automatically sends alerts for high-risk students.
+
+---
+
+## 📸 Screenshots
+
+Add your screenshots like:
+
+```
+![Dashboard](1.png)
+![Risk Analysis](2.png)
+![Insights](3.png)
+```
+
+---
+
+## 🔬 Machine Learning Workflow
+
+```
+CSV Input
+   ↓
+Data Cleaning (pandas)
+   ↓
+Feature Processing
+   ↓
+ML Model Prediction (scikit-learn)
+   ↓
+Risk Classification
+   ↓
+Insight Generation
+   ↓
+Store in MongoDB
+   ↓
+Display on Dashboard
+```
+
+---
+
+## 🌟 Future Enhancements
+
+- Deep Learning based predictions
+- Real-time student monitoring
+- Parent notification system
+- Mobile application support
+- Multi-institution support
+- Role-based authentication
+
+---
+
+## 👨‍💻 Project Guide
+
+**Project Coordinator:**  
+Shravan Kumar Pandey  
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+## ⭐ Support
+
+If you like this project, please star the repository.
 
