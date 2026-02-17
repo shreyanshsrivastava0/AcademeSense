@@ -1,7 +1,7 @@
 # 🎓 Academesence – ML-Powered Student Performance Prediction System
 
-**Project Guide :** Shravan Kumar Pandey
-**Project Coordinator:** Pankaj Kumar
+**Project Guide :** Shravan Kumar Pandey, 
+ **Project Coordinator:** Pankaj Kumar
 
 ---
 
