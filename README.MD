@@ -252,11 +252,11 @@ System automatically sends alerts for high-risk students.
 Add your screenshots like:
 
 
-![Landing Page](2.png)
-![Login Page](3.png)
-![Dashboard](4.png)
-![Data Analysis](7.png)
-![Notifications](9.png)
+![Landing Page](/public/img/2.png)
+![Login Page](/public/img/3.png)
+![Dashboard](/public/img/4.png)
+![Data Analysis](/public/img/7.png)
+![Notifications](/public/img/9.png)
 
 
 ---
@@ -313,7 +313,14 @@ If you like this project, please star the repository.
 
 ## Contributors
 
-<a href="https://github.com/yashnishad-0923">
-  <img src="https://github.com/yashnishad-0923.png" width="50px">
-</a>
+## Contributors
+
+<p align="center">
+  <a href="https://github.com/yashnishad-0923">
+    <img src="https://github.com/yashnishad-0923.png" width="80px;" style="border-radius:50%"/>
+    <br />
+    <sub><b>Yash Nishad</b></sub>
+  </a>
+</p>
+
 
