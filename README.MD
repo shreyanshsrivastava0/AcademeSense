@@ -311,7 +311,6 @@ This project is licensed under the MIT License.
 
 If you like this project, please star the repository.
 
-## Contributors
 
 ## Contributors
 
