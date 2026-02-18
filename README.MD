@@ -325,7 +325,7 @@ If you like this project, please star the repository.
   <a href="https://github.com/anujverma1475-spec">
     <img src="https://github.com/anujverma1475-spec.png" width="80px;" style="border-radius:50%"/>
     <br />
-    <sub><b>Yash Nishad</b></sub>
+    <sub><b>Anuj Verma</b></sub>
   </a>
 </p>
 
